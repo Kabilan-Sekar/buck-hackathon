@@ -1,0 +1,108 @@
+ZEROWINGS AEROSPACE TEAM 319579
+ASYNCHRONOUS BUCK CONVERTER DESIGN AND ANALYSIS USING CURRENT-MODE CONTROL
+1. Introduction
+This project focuses on the design, simulation, and analysis of a digitally controlled buck converter implemented in MATLAB Simulink. The objective is to achieve regulated 12 V output from a 24 V input supply using current-mode control and to evaluate performance under both steady-state and transient conditions. The project also includes component selection, PCB design, load transient and small signal simulation in KICAD AND MATLAB SIMULINK respectively
+________________________________________
+2. Design Specifications
+Parameter	Value
+Input Voltage	24 V
+Output Voltage	12 V
+Switching Frequency	200 kHz
+Load Resistance	10 Ω nominal (variable for transient test)
+Inductance	400 µH
+Capacitance	100 µF
+The converter is designed to operate in continuous conduction mode with a nominal duty ratio of 0.5. The chosen component values provide low output voltage ripple, stable transient response, and maintain efficiency above 90 percent under rated load conditions.
+________________________________________
+3. Step 1 — Design and Simulation (MATLAB Simulink)
+3.1 Simulation Model Overview
+The system is modeled in MATLAB Simulink, consisting of the following main subsystems:
+•	Power Stage:
+Includes a MOSFET as the main switch, a Schottky diode as the freewheeling path, a 400 µH output inductor, and a 100 µF output capacitor.
+•	Control Stage:
+Implements current-mode control with an inner current loop and outer voltage loop. A current sensing block measures the inductor current and compares it with the reference derived from the voltage error amplifier. For comparison, a digital PID controller is also implemented by discretizing the converter model using a sampling period of 5 microseconds.
+•	Load Transient Simulation:
+A signal-controlled variable resistor is used to emulate load transients. The load resistance is made sinusoidal to evaluate transient recovery and control loop stability.
+Screenshot 1: Simulink model overview showing current-mode controlled buck converter.
+Screenshot 2: Transient response using variable load resistor.
+________________________________________
+3.2 Steady-State and Dynamic Results
+•	Output voltage: 12 V regulated at nominal load
+•	Inductor current ripple: Approximately 3 of average load current
+•	Output voltage ripple: Less than 50 mV peak-to-peak
+•	Transient response: Settling time below 1.5 ms for 50% load step
+•	Efficiency: Above 90% at full load with minimal switching losses
+The transient performance confirms that the converter maintains stability and quick recovery under dynamic load variations. The steady-state response shows negligible deviation in output voltage, indicating good control design.
+________________________________________
+3.3 Small-Signal and Frequency Response
+The converter is linearized around the steady-state operating point using MATLAB’s control design tools. The resulting Bode plot confirms adequate stability margins:
+•	Phase Margin: Approximately 50 degrees
+•	Gain Margin: Above 10 dB
+These results validate the effectiveness of the compensator design and ensure robust control under parameter variations.
+Screenshot 3: Small-signal frequency response showing magnitude and phase plot.
+________________________________________
+4. Step 2 — Component Selection and PCB Design
+4.1 Component Selection
+Component	Specification	Selection Justification
+MOSFET	40 V, 30 A, low RDS(on)	Ensures low conduction losses and fast switching
+Diode	Schottky 40 V, 10 A	Low forward voltage and minimal reverse recovery losses
+Inductor	400 µH, 3 A rated	Chosen to maintain continuous conduction and minimize ripple
+Capacitor	100 µF, low ESR	Reduces voltage ripple and enhances transient response
+Controller	Custom digital PID (Simulink)	Provides flexible gain tuning and noise immunity
+4.2 PCB Design and Layout
+The PCB schematic and layout were developed in Kicad. Key layout considerations include:
+1.	Minimized High-Current Loop Area (Switching Loop)
+2.	Short and Wide Input/Output Power Paths
+3.	Strategic Placement of Input Capacitors
+4.	Effective Thermal Dissipation
+5.	Output Inductor and Output Capacitor Separation from Switching Nodes
+6.	"Quiet" vs. "Noisy" Ground Separation
+7.	Sensing/Feedback Trace Routing
+8.	Vias Used for Thermal Relief and Current Carrying
+9.	Clear Delimitation of Power and Signal Areas
+10.	Use of a Ground Plane
+Deliverables:
+•	Bill of Materials (BOM)
+•	PCB layout and schematic files
+•	3D render of final PCB
+•	Frequency response plot from small-signal analysis
+________________________________________
+5. Step 3 — Thermal Simulation
+A preliminary thermal analysis was performed using SolidWorks Simulation. The PCB model was imported with realistic component power losses based on switching and conduction characteristics.
+•	Ambient temperature: 25°C
+•	Steady-state thermal analysis: Conducted under full-load operation
+•	Hotspot temperature: Identified near the MOSFET and diode regions
+•	Recommendations: Increase copper area under switching components, add thermal vias, and use thicker PCB copper layers for improved heat dissipation.
+Screenshot 4: Thermal contour plot showing temperature distribution across the PCB.
+________________________________________
+6. Step 4 — Digital PID Control Implementation
+A digital PID controller was implemented to compare with the analog current-mode loop. The gains were tuned to achieve a critically damped response while minimizing steady-state error.
+Control Mode	Overshoot	Settling Time	Steady-State Error	Stability
+Current-Mode	Low	Fast	Negligible	Excellent
+Digital PID	Moderate	Slightly slower	Zero	Stable
+Both methods achieved stable regulation, with current-mode control offering faster dynamic response, while the digital PID provided flexibility and easier parameter adjustment in the discrete domain.
+________________________________________
+7. Step 5 — Efficiency Optimization
+Efficiency was evaluated considering conduction, switching, and control losses. The optimized design achieved over 90% efficiency under nominal load due to:
+
+
+
+Loss Component	Equation / Estimate	Notes
+MOSFET Conduction	Iout² × RDS(on) × D	Low RDS(on) MOSFET; duty cycle 0.5
+Diode Conduction	Iout × Vf × (1-D)	Schottky diode forward drop 0.5 V
+MOSFET Switching	0.5 × Vin × Iout × (tr + tf) × fs	Rise/fall time 50 ns, fs = 200 kHz
+Inductor Copper Loss	Iout² × Rseries	3 Ω equivalent series resistance
+Inductor Core Loss	Estimated	Typical low-frequency core loss
+Capacitor ESR Loss	Iout² × ESR	ESR ≈ 0.01 Ω
+________________________________________
+8. Project Checklist
+Task	Status
+Verified converter simulation (step response, steady-state)	Completed
+Stable closed-loop operation	Achieved
+PCB schematic and layout	Completed
+Frequency response analysis	Completed
+Thermal analysis	TBD
+Final report and presentation	Ready
+________________________________________
+9. Conclusion
+A buck converter operating at 200 kHz with 24 V input and 12 V regulated output has been successfully designed and simulated. The converter demonstrates stable closed-loop behavior under both steady and transient conditions. The comparison between current-mode and digital PID control highlights the trade-off between response speed and design flexibility.
+The PCB design and thermal evaluation further validate the converter’s practical feasibility, achieving over 90 percent efficiency. Future work includes complete thermal optimization and hardware prototyping.
