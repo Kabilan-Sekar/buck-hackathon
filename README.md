@@ -5,7 +5,7 @@ This repository contains the design files, simulation results, and PCB layout fo
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 | Folder | Contents | Key Files Included |
 | :--- | :--- | :--- |
@@ -15,7 +15,7 @@ This repository contains the design files, simulation results, and PCB layout fo
 
 ---
 
-## 🛠️ Design and Analysis Files (`design/` folder)
+## Design and Analysis Files (`design/` folder)
 
 * **`finalbuck.slk`**: The main **Simulink Model** used for the transient and steady-state simulation of the converter.
 * **`bode_plot.png`**: Image showing the **Bode Plot** of the control loop, critical for verifying stability (phase and gain margins).
@@ -24,7 +24,7 @@ This repository contains the design files, simulation results, and PCB layout fo
 
 ---
 
-## 🔩 PCB Files (`pcb/` folder)
+## PCB Files (`pcb/` folder)
 
 The PCB was designed using **KiCad Board 9.0**.
 
@@ -34,7 +34,7 @@ The PCB was designed using **KiCad Board 9.0**.
 
 ---
 
-## 📄 Documentation (Root directory)
+## Documentation (Root directory)
 
 * **`control_diagram.pdf`**: PDF detailing the **control strategy** and block diagram used for the feedback system.
 * **`bonus_task.pdf`**: Document related to an extended design specification or analysis task.
